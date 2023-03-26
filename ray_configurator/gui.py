@@ -7,7 +7,7 @@ class RayConfigurator(tk.Frame):
     def __init__(self, master):
         self.master = master
         self.master.title("ray-configurator - unsaved")
-        self.master.geometry("400x300")
+        self.master.geometry("600x400")
         self.current_file = None
 
         # NAVIGATION MENU
@@ -28,11 +28,7 @@ class RayConfigurator(tk.Frame):
         self.master.config(menu=self.menu)
 
         # ACTUAL LOGIC
-        # defaults - move later
-        self.current_values = {
-            'SUN_SHADOW_SAMPLE_QUALITY': 1,
-            'MULTI_SHADOW_MAP_QUALITY': 1
-        }
+        self.current_values = mappings.defaults
         
         max_label_width = max(len(mappings.name[key]) for key in mappings.name)
 
@@ -63,7 +59,7 @@ class RayConfigurator(tk.Frame):
                     self.inputs[key].bind("<<ComboboxSelected>>", self.on_value_change)
                 elif mappings.inputs[key] == "checkbox":
                     self.inputs[key] = tk.BooleanVar()
-                    self.inputs[key].set(value)
+                    self.inputs[key].set(value == "Enabled")
                     tk.Checkbutton(frame, variable=self.inputs[key]).pack(side="right")
                     self.inputs[key].trace_add("write", self.on_value_change)
         
