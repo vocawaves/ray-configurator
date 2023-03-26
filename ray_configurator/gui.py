@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, Menu, messagebox
 import mappings
-import sv_ttk
 
 class RayConfigurator(tk.Frame):
     # main window
@@ -18,6 +17,7 @@ class RayConfigurator(tk.Frame):
         self.menu = Menu(self.master)
         # file menu
         self.file_menu = Menu(self.menu, tearoff=0)
+        self.file_menu.add_command(label="New", command=self.new_file, accelerator="Ctrl+N")
         self.file_menu.add_command(label="Open", command=self.open_file, accelerator="Ctrl+O")
         self.file_menu.add_command(label="Save", command=self.save_values, accelerator="Ctrl+S")
         self.file_menu.add_command(label="Save As", command=self.save_as, accelerator="Ctrl+Shift+S")
@@ -32,6 +32,7 @@ class RayConfigurator(tk.Frame):
         self.master.config(menu=self.menu)
 
         # KEYBINDS
+        self.master.bind("<Control-n>", lambda event: self.new_file())
         self.master.bind("<Control-s>", lambda event: self.save_values())
         self.master.bind("<Control-o>", lambda event: self.open_file())
         self.master.bind("<Control-Shift-s>", lambda event: self.save_as())
@@ -70,7 +71,7 @@ class RayConfigurator(tk.Frame):
                     self.inputs[key] = tk.BooleanVar()
                     self.inputs[key].set(value == "Enabled")
                     tk.Checkbutton(frame, variable=self.inputs[key]).pack(side="right")
-                    self.inputs[key].trace_add("write", lambda event: self.on_value_change())
+                    self.inputs[key].trace_add("write", lambda *args: self.on_value_change())
         
     # on value change
     def on_value_change(self):
@@ -111,7 +112,11 @@ class RayConfigurator(tk.Frame):
                 for line in lines:
                     for key in mappings.setting.keys():
                         if line.startswith(f"#define {key}"):
-                            numerical_value = str(list(mappings.setting[key].keys())[list(mappings.setting[key].values()).index(self.inputs[key].get())])
+                            input_value = self.inputs[key].get()
+                            if isinstance(input_value, bool):
+                                numerical_value = int(input_value)
+                            else:
+                                numerical_value = str(list(mappings.setting[key].keys())[list(mappings.setting[key].values()).index(input_value)])
                             self.current_values[key] = int(numerical_value)
                             line = f"#define {key} {numerical_value}\n"
                     f.write(line)
@@ -123,7 +128,11 @@ class RayConfigurator(tk.Frame):
                 self.master.title(f"ray-configurator - {self.current_file}")
                 with open(self.current_file, "w") as f:
                     for key in mappings.setting.keys():
-                        numerical_value = str(list(mappings.setting[key].keys())[list(mappings.setting[key].values()).index(self.inputs[key].get())])
+                        input_value = self.inputs[key].get()
+                        if isinstance(input_value, bool):
+                            numerical_value = int(input_value)
+                        else:
+                            numerical_value = str(list(mappings.setting[key].keys())[list(mappings.setting[key].values()).index(input_value)])
                         self.current_values[key] = int(numerical_value)
                         line = f"#define {key} {numerical_value}\n"
                         f.write(line)
@@ -147,6 +156,24 @@ class RayConfigurator(tk.Frame):
                     break
         print("Values loaded successfully.")
 
+    # new file
+    def new_file(self):
+        if self.unsaved_changes:
+            answer = messagebox.askyesnocancel("Unsaved changes", "You have unsaved changes. Do you want to save them?")
+            if answer == True:
+                self.save_values()
+            elif answer == False:
+                pass
+            else:
+                return
+        self.current_file = None
+        self.current_values = mappings.defaults
+        for key in mappings.setting.keys():
+            value = mappings.setting[key][self.current_values[key]]
+            self.inputs[key].set(value)
+        self.master.title("ray-configurator - unsaved")
+        self.unsaved_changes = False
+
     # about
     def about(self):
         messagebox.showinfo("About", "ray-configurator v1.0.0\n\nDeveloped by @davidcralph")
@@ -161,6 +188,5 @@ class RayConfigurator(tk.Frame):
             self.master.destroy()
 
 root = tk.Tk()
-sv_ttk.set_theme("dark")
 app = RayConfigurator(root)
 root.mainloop()
