@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, Menu, messagebox
 import mappings
+import sv_ttk
 
 class RayConfigurator(tk.Frame):
     # main window
@@ -8,15 +9,18 @@ class RayConfigurator(tk.Frame):
         self.master = master
         self.master.title("ray-configurator - unsaved")
         self.master.geometry("600x400")
+        self.master.resizable(False, False)
         self.current_file = None
+        self.unsaved_changes = False
+        self.master.protocol("WM_DELETE_WINDOW", self.on_close)
 
         # NAVIGATION MENU
         self.menu = Menu(self.master)
         # file menu
         self.file_menu = Menu(self.menu, tearoff=0)
-        self.file_menu.add_command(label="Open", command=self.open_file)
-        self.file_menu.add_command(label="Save", command=self.save_values)
-        self.file_menu.add_command(label="Save As", command=self.save_as)
+        self.file_menu.add_command(label="Open", command=self.open_file, accelerator="Ctrl+O")
+        self.file_menu.add_command(label="Save", command=self.save_values, accelerator="Ctrl+S")
+        self.file_menu.add_command(label="Save As", command=self.save_as, accelerator="Ctrl+Shift+S")
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit", command=self.master.quit)
         self.menu.add_cascade(label="File", menu=self.file_menu)
@@ -27,7 +31,12 @@ class RayConfigurator(tk.Frame):
 
         self.master.config(menu=self.menu)
 
-        # ACTUAL LOGIC
+        # KEYBINDS
+        self.master.bind("<Control-s>", lambda event: self.save_values())
+        self.master.bind("<Control-o>", lambda event: self.open_file())
+        self.master.bind("<Control-Shift-s>", lambda event: self.save_as())
+
+        # RENDER SETTINGS
         self.current_values = mappings.defaults
         
         max_label_width = max(len(mappings.name[key]) for key in mappings.name)
@@ -56,22 +65,31 @@ class RayConfigurator(tk.Frame):
                     self.inputs[key] = ttk.Combobox(frame, state="readonly", values=list(mappings.setting[key].values()))
                     self.inputs[key].set(value)
                     self.inputs[key].pack(side="right")
-                    self.inputs[key].bind("<<ComboboxSelected>>", self.on_value_change)
+                    self.inputs[key].bind("<<ComboboxSelected>>", lambda event: self.on_value_change())
                 elif mappings.inputs[key] == "checkbox":
                     self.inputs[key] = tk.BooleanVar()
                     self.inputs[key].set(value == "Enabled")
                     tk.Checkbutton(frame, variable=self.inputs[key]).pack(side="right")
-                    self.inputs[key].trace_add("write", self.on_value_change)
+                    self.inputs[key].trace_add("write", lambda event: self.on_value_change())
         
-        self.save_button = tk.Button(self.master, text="Save", command=self.save_values)
-        self.save_button.pack(side="left", padx=(0, 10))
-
     # on value change
-    def on_value_change(self, key):
-        self.master.title(f"ray-configurator - {self.current_file} *")
+    def on_value_change(self):
+        if self.current_file:
+            self.master.title(f"ray-configurator - {self.current_file} *")
+        else:
+            self.master.title(f"ray-configurator - unsaved *")
+        self.unsaved_changes = True
 
     # open file
     def open_file(self):
+        if self.unsaved_changes:
+            answer = messagebox.askyesnocancel("Unsaved changes", "You have unsaved changes. Do you want to save them?")
+            if answer == True:
+                self.save_values()
+            elif answer == False:
+                pass
+            else:
+                return
         filetypes = [("Configuration files", "*.conf"), ("All files", "*.*")]
         filename = filedialog.askopenfilename(filetypes=filetypes)
         if filename:
@@ -113,6 +131,7 @@ class RayConfigurator(tk.Frame):
                 return
         print("Values saved successfully.")
         self.master.title(f"ray-configurator - {self.current_file}")
+        self.unsaved_changes = False
 
     # load from file
     def load_values(self):
@@ -132,6 +151,16 @@ class RayConfigurator(tk.Frame):
     def about(self):
         messagebox.showinfo("About", "ray-configurator v1.0.0\n\nDeveloped by @davidcralph")
 
+    def on_close(self):
+        if self.unsaved_changes:
+            if messagebox.askyesno("Unsaved changes", "You have unsaved changes. Are you sure you want to exit?"):
+                self.master.destroy()
+            else:
+                return
+        else:
+            self.master.destroy()
+
 root = tk.Tk()
+sv_ttk.set_theme("dark")
 app = RayConfigurator(root)
 root.mainloop()
