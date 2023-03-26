@@ -1,5 +1,8 @@
 # Directories
+dist/
+build/
 __pycache__/
 
 # Files
+*.spec
 *.conf

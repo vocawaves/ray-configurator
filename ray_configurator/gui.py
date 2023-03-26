@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, Menu
+from tkinter import ttk, filedialog, Menu, messagebox
 import mappings
 
 class RayConfigurator(tk.Frame):
@@ -22,7 +22,7 @@ class RayConfigurator(tk.Frame):
         self.menu.add_cascade(label="File", menu=self.file_menu)
         # help menu
         self.help_menu = Menu(self.menu, tearoff=0)
-        self.help_menu.add_command(label="About")
+        self.help_menu.add_command(label="About", command=self.about)
         self.menu.add_cascade(label="Help", menu=self.help_menu)
 
         self.master.config(menu=self.menu)
@@ -127,6 +127,10 @@ class RayConfigurator(tk.Frame):
                     self.inputs[key].set(value)
                     break
         print("Values loaded successfully.")
+
+    # about
+    def about(self):
+        messagebox.showinfo("About", "ray-configurator v1.0.0\n\nDeveloped by @davidcralph")
 
 root = tk.Tk()
 app = RayConfigurator(root)
