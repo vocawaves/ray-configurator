@@ -1,0 +1,5 @@
+# Directories
+__pycache__/
+
+# Files
+*.conf
