@@ -13,7 +13,7 @@ Supports both ray-mmd-dev and ray-mmd 1.5.2. It may work with versions older or 
 * Code cleanup
 * Translations
 * Support ray_advanced.conf
-* Detect ray-mmd version and change config mappings to match
+* Add presets
 
 ## License
 [MIT](LICENSE)
