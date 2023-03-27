@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, Menu, messagebox
 import mappings
+import tooltip
+import webbrowser
 
 
 class RayConfigurator(tk.Frame):
@@ -31,7 +33,9 @@ class RayConfigurator(tk.Frame):
         self.menu.add_cascade(label="File", menu=self.file_menu)
         # help menu
         self.help_menu = Menu(self.menu, tearoff=0)
-        self.help_menu.add_command(label="About", command=self.about)
+        self.help_menu.add_command(label="ray-mmd Documentation", command=self.documentation)
+        self.help_menu.add_separator()
+        self.help_menu.add_command(label="About", command=self.about, accelerator="F1")
         self.menu.add_cascade(label="Help", menu=self.help_menu)
 
         self.master.config(menu=self.menu)
@@ -41,6 +45,7 @@ class RayConfigurator(tk.Frame):
         self.master.bind("<Control-s>", lambda event: self.save_values())
         self.master.bind("<Control-o>", lambda event: self.open_file())
         self.master.bind("<Control-Shift-s>", lambda event: self.save_as())
+        self.master.bind("<F1>", lambda event: self.about())
 
         # RENDER SETTINGS
         self.current_values = mappings.defaults
@@ -67,6 +72,7 @@ class RayConfigurator(tk.Frame):
                 self.labels[key] = tk.Label(
                     frame, text=mappings.name[key], width=max_label_width + 2, anchor="w")
                 self.labels[key].pack(side="left")
+                tooltip.add_tooltip(self.labels[key], mappings.description[key])
 
                 value = mappings.setting[key][self.current_values[key]]
 
@@ -100,6 +106,7 @@ class RayConfigurator(tk.Frame):
             self.inputs[key] = "Enabled"
         else:
             self.inputs[key] = "Disabled"
+        self.on_value_change()
 
     # open file
     def open_file(self):
@@ -221,6 +228,10 @@ class RayConfigurator(tk.Frame):
     def about(self):
         messagebox.showinfo(
             "About", "ray-configurator v1.0.0\n\nDeveloped by @davidcralph")
+
+    # docs
+    def documentation(self):
+        webbrowser.open("https://github.com/ray-cast/ray-mmd/wiki", new=2)
 
     def on_close(self):
         if self.unsaved_changes:
