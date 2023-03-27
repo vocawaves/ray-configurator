@@ -231,6 +231,7 @@ class RayConfigurator(tk.Frame):
                         elif self.mappings.inputs[key] == "checkbox":
                             checkbox_var = tk.BooleanVar()
                             checkbox_var.set(value == "Enabled")
+                            self.checkbox_vals[key] = checkbox_var
                             self.checkbox_objects[key].config(
                                 variable=checkbox_var)
                         break
