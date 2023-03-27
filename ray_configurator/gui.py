@@ -4,7 +4,6 @@ import mappings
 import tooltip
 import webbrowser
 
-
 class RayConfigurator(tk.Frame):
     # main window
     def __init__(self, master):
@@ -198,6 +197,7 @@ class RayConfigurator(tk.Frame):
                             variable=checkbox_var)
                     break
         print("Values loaded successfully.")
+        self.unsaved_changes = False
 
     # new file
     def new_file(self):
