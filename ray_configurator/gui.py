@@ -23,13 +23,13 @@ class RayConfigurator(tk.Frame):
         # file menu
         self.file_menu = Menu(self.menu, tearoff=0)
         self.file_menu.add_command(
-            label=self.language['menu_file_new_dev'], command=self.new_file_dev, accelerator="Ctrl+N")
+            label=self.language['menu_file_new_dev'], command=lambda: self.new_file('dev'), accelerator="Ctrl+N")
         self.file_menu.add_command(
-            label=self.language['menu_file_new_stable'], command=self.new_file_stable, accelerator="Ctrl+Shift+N")
+            label=self.language['menu_file_new_stable'], command=lambda: self.new_file('stable'), accelerator="Ctrl+Shift+N")
         self.file_menu.add_command(
-            label=self.language['menu_file_new_legacy'], command=self.new_file_legacy)
+            label=self.language['menu_file_new_legacy'], command=lambda: self.new_file('legacy'))
         self.file_menu.add_command(
-            label=self.language['menu_file_new_ancient'], command=self.new_file_ancient)
+            label=self.language['menu_file_new_ancient'], command=lambda: self.new_file('ancient'))
         self.file_menu.add_command(
             label=self.language['menu_file_open'], command=self.open_file, accelerator="Ctrl+O")
         self.file_menu.add_command(
@@ -47,9 +47,9 @@ class RayConfigurator(tk.Frame):
         self.english.set(True)
         self.japanese = tk.BooleanVar()
         self.language_menu.add_checkbutton(
-            label="English", command=self.set_language_english, onvalue=1, offvalue=0, variable=self.english)
+            label="English", command=lambda: self.set_language('english'), onvalue=1, offvalue=0, variable=self.english)
         self.language_menu.add_checkbutton(
-            label="日本語", command=self.set_language_japanese, onvalue=1, offvalue=0, variable=self.japanese)
+            label="日本語", command=lambda: self.set_language('japanese'), onvalue=1, offvalue=0, variable=self.japanese)
         self.view_menu.add_cascade(label=self.language['menu_view_language'], menu=self.language_menu)
         self.menu.add_cascade(label=self.language['menu_view'], menu=self.view_menu)
 
@@ -149,10 +149,7 @@ class RayConfigurator(tk.Frame):
     # annoying checkbox fix
 
     def on_checkbox_changed(self, key, var):
-        if var.get():
-            self.inputs[key] = "Enabled"
-        else:
-            self.inputs[key] = "Disabled"
+        self.inputs[key] = "Enabled" if var.get() else "Disabled"
         self.on_value_change()
 
     # on preset change
@@ -310,7 +307,7 @@ class RayConfigurator(tk.Frame):
 
     # MENU CONTROLS
     # new file
-    def new_file(self):
+    def new_file(self, type):
         if self.unsaved_changes:
             answer = messagebox.askyesnocancel(
                 self.language['unsaved_title'], self.language['unsaved_message'])
@@ -321,6 +318,8 @@ class RayConfigurator(tk.Frame):
             else:
                 return
 
+        self.mappings = importlib.import_module("mappings." + type)
+        self.reset_tabs()
         self.current_file = None
         self.current_values = self.mappings.defaults
 
@@ -338,45 +337,17 @@ class RayConfigurator(tk.Frame):
         self.master.title("ray-configurator - unsaved")
         self.unsaved_changes = False
 
-    # new file stable
-    def new_file_stable(self):
-        self.mappings = importlib.import_module("mappings.stable")
-        self.reset_tabs()
-        self.new_file()
-
-    # new file dev
-    def new_file_dev(self):
-        self.mappings = importlib.import_module("mappings.dev")
-        self.reset_tabs()
-        self.new_file()
-
-    # new file legacy
-    def new_file_legacy(self):
-        self.mappings = importlib.import_module("mappings.legacy")
-        self.reset_tabs()
-        self.new_file()
-
-    # new file ancient
-    def new_file_ancient(self):
-        self.mappings = importlib.import_module("mappings.ancient")
-        self.reset_tabs()
-        self.new_file()
-
     # set language to english
-    def set_language_english(self):
-        self.mappings.set_language("english")
-        self.english.set(True)
-        self.japanese.set(False)
-        self.language = importlib.import_module('languages.english')
+    def set_language(self, language):
+        self.mappings.set_language(language)
+        self.language = importlib.import_module('languages.' + language)
         self.reset_tabs()
-
-    # set language to japanese
-    def set_language_japanese(self):
-        self.mappings.set_language("japanese")
-        self.english.set(False)
-        self.japanese.set(True)
-        self.language = importlib.import_module('languages.japanese')
-        self.reset_tabs()
+        if language == "english":
+            self.english.set(True)
+            self.japanese.set(False)
+        elif language == "japanese":
+            self.english.set(False)
+            self.japanese.set(True)
 
     # about
     def about(self):
