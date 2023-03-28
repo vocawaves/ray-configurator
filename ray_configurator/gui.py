@@ -267,21 +267,26 @@ class RayConfigurator(tk.Frame):
     def load_values(self):
         with open(self.current_file, "r") as f:
             lines = f.readlines()
-
-            self.mappings = importlib.import_module("mappings.dev")
-            self.reset_tabs()
+            not_dev = False
             for line in lines:
                 if '#define MAIN_LIGHT_ENABLE' in line:
                     self.mappings = importlib.import_module("mappings.legacy")
                     self.reset_tabs()
+                    not_dev = True
                 if '#define IBL_QUALITY' in line:
                     self.mappings = importlib.import_module("mappings.ancient")
                     self.reset_tabs()
+                    not_dev = True
                     break
                 if '#define BOKEH_QUALITY' in line:
                     self.mappings = importlib.import_module("mappings.stable")
                     self.reset_tabs()
+                    not_dev = True
                     break
+
+            if not_dev:
+                self.mappings = importlib.import_module("mappings.dev")
+                self.reset_tabs()
 
             for line in lines:
                 for key in self.mappings.setting.keys():
