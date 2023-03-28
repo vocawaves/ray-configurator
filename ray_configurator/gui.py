@@ -73,6 +73,22 @@ class RayConfigurator(tk.Frame):
     def init_ui(self):
         max_label_width = max(
             len(self.mappings.name[key]) for key in self.mappings.name)
+
+        # preset buttons
+        self.preset_frame = tk.Frame(self.master)
+        self.preset_frame.pack(side="top", fill="x", padx=10, pady=5)
+
+        self.preset_label = tk.Label(
+            self.preset_frame, text="Presets", width=max_label_width + 2, anchor="w")
+        self.preset_label.pack(side="left")
+
+        self.preset_dropdown = ttk.Combobox(
+            self.preset_frame, state="readonly", values=list(self.mappings.presets.keys()))
+        self.preset_dropdown.set("Default")
+        self.preset_dropdown.pack(side="right")
+        self.preset_dropdown.bind(
+            "<<ComboboxSelected>>", lambda event: self.on_preset_change())
+
         for category in self.mappings.category.keys():
             self.tabs[category] = ttk.Frame(self.notebook)
             self.notebook.add(self.tabs[category], text=category)
@@ -111,6 +127,8 @@ class RayConfigurator(tk.Frame):
             self.master.title(f"ray-configurator - {self.current_file} *")
         else:
             self.master.title(f"ray-configurator - unsaved *")
+
+        self.preset_dropdown.set("Custom")
         self.unsaved_changes = True
 
     # annoying checkbox fix
@@ -120,6 +138,20 @@ class RayConfigurator(tk.Frame):
         else:
             self.inputs[key] = "Disabled"
         self.on_value_change()
+
+    # on preset change
+    def on_preset_change(self):
+        self.current_values = self.mappings.presets[self.preset_dropdown.get()]
+        for key in self.mappings.name.keys():
+            value = self.mappings.setting[key][self.current_values[key]]
+            if self.mappings.inputs[key] == "dropdown":
+                self.inputs[key].set(value)
+            elif self.mappings.inputs[key] == "checkbox":
+                checkbox_var = tk.BooleanVar()
+                checkbox_var.set(value == "Enabled")
+                self.checkbox_vals[key] = checkbox_var
+                self.checkbox_objects[key].config(
+                    variable=checkbox_var)
 
     # open file
     def open_file(self):
@@ -207,6 +239,7 @@ class RayConfigurator(tk.Frame):
         self.checkbox_vals = {}
         for i in self.notebook.tabs():
             self.notebook.forget(i)
+        self.preset_frame.destroy()
 
         self.init_ui()
 

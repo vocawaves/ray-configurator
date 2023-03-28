@@ -13,7 +13,6 @@ Tested with ray-mmd 1.5.2 and dev, but compatibility is implemented for all vers
 * Code cleanup
 * Translations
 * Support ray_advanced.conf
-* Add presets
 
 ## License
 [MIT](LICENSE)
