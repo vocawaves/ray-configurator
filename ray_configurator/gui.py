@@ -17,6 +17,7 @@ class RayConfigurator(tk.Frame):
         self.current_file = None
         self.unsaved_changes = False
         self.master.protocol("WM_DELETE_WINDOW", self.on_close)
+        self.recent_files = []
 
         # NAVIGATION MENU
         self.menu = Menu(self.master)
@@ -32,6 +33,13 @@ class RayConfigurator(tk.Frame):
             label=self.language['menu_file_new_ancient'], command=lambda: self.new_file('ancient'))
         self.file_menu.add_command(
             label=self.language['menu_file_open'], command=self.open_file, accelerator="Ctrl+O")
+
+        self.recent_menu = Menu(self.file_menu, tearoff=0)
+        if len(self.recent_files) == 0:
+            self.recent_menu.add_command(label=self.language['menu_file_open_recent_none'], state="disabled")
+        for i in self.recent_files:
+            self.file_menu.add_command(label=i, command=lambda: self.open_file(i))
+        self.file_menu.add_cascade(label=self.language['menu_file_open_recent'], menu=self.recent_menu)
         self.file_menu.add_command(
             label=self.language['menu_file_save'], command=self.save_values, accelerator="Ctrl+S")
         self.file_menu.add_command(
@@ -51,6 +59,7 @@ class RayConfigurator(tk.Frame):
         self.language_menu.add_checkbutton(
             label="日本語", command=lambda: self.set_language('japanese'), onvalue=1, offvalue=0, variable=self.japanese)
         self.view_menu.add_cascade(label=self.language['menu_view_language'], menu=self.language_menu)
+        self.view_menu.add_command(label="Clear Recent Items", command=self.clear_recent)
         self.menu.add_cascade(label=self.language['menu_view'], menu=self.view_menu)
 
         # help menu
@@ -183,8 +192,25 @@ class RayConfigurator(tk.Frame):
         filename = filedialog.askopenfilename(filetypes=filetypes)
         if filename:
             self.current_file = filename
+            # recent files
+            if len(self.recent_files) == 0:
+                self.recent_menu.delete(0)
+            if filename not in self.recent_files:
+                self.recent_files.append(filename)
+                self.recent_menu.add_command(
+                    label=filename, command=lambda filename=filename: self.open_recent(filename))
+            if len(self.recent_files) > 5:
+                self.recent_files.pop(0)
+                self.recent_menu.delete(0, "end")
+
             self.master.title(f"ray-configurator - {self.current_file}")
             self.load_values()
+
+    def clear_recent(self):
+        self.recent_files = []
+        self.recent_menu.delete(0, "end")
+        self.recent_menu.add_command(
+            label=self.language['no_recent'], command=self.clear_recent)
 
     # save as file
 
