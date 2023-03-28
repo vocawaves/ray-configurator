@@ -1,0 +1,20 @@
+strings = {
+    'menu_file': 'ファイル',
+    'menu_file_new_dev': '新規（ray-mmd-dev）',
+    'menu_file_new_stable': '新規(ray-mmd 1.5.2)',
+    'menu_file_new_legacy': '新規（ray-mmd 1.3.x）',
+    'menu_file_new_ancient': '新規（ray-mmd 1.2.x）',
+    'menu_file_open': '開く',
+    'menu_file_save': '保存する',
+    'menu_file_save_as': '名前を付けて保存する',
+    'menu_file_exit': '終了',
+    'menu_view': 'ビュー',
+    'menu_view_language': '言語',
+    'menu_help': 'について',
+    'menu_help_docs': 'ray-mmd ドキュメント',
+    'menu_help_about': 'についt',
+    'unsaved_title': '未保存の変更点',
+    'unsaved_message': '未保存の変更点があります。保存しますか？',
+    'unsaved_exit': '未保存の変更があります。本当に終了しますか？',
+    'presets': 'Presets'
+}

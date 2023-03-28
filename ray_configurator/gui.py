@@ -4,11 +4,11 @@ import importlib
 import tooltip
 import webbrowser
 
-
 class RayConfigurator(tk.Frame):
     # main window
     def __init__(self, master):
         self.mappings = importlib.import_module('mappings.dev')
+        self.language = importlib.import_module('languages.english').strings
 
         self.master = master
         self.master.title("ray-configurator - unsaved")
@@ -23,22 +23,22 @@ class RayConfigurator(tk.Frame):
         # file menu
         self.file_menu = Menu(self.menu, tearoff=0)
         self.file_menu.add_command(
-            label="New (ray-mmd dev)", command=self.new_file_dev, accelerator="Ctrl+N")
+            label=self.language['menu_file_new_dev'], command=self.new_file_dev, accelerator="Ctrl+N")
         self.file_menu.add_command(
-            label="New (ray-mmd 1.5.2)", command=self.new_file_stable, accelerator="Ctrl+Shift+N")
+            label=self.language['menu_file_new_stable'], command=self.new_file_stable, accelerator="Ctrl+Shift+N")
         self.file_menu.add_command(
-            label="New (ray-mmd 1.3.x)", command=self.new_file_legacy)
+            label=self.language['menu_file_new_legacy'], command=self.new_file_legacy)
         self.file_menu.add_command(
-            label="New (ray-mmd 1.2.x)", command=self.new_file_ancient)
+            label=self.language['menu_file_new_ancient'], command=self.new_file_ancient)
         self.file_menu.add_command(
-            label="Open", command=self.open_file, accelerator="Ctrl+O")
+            label=self.language['menu_file_open'], command=self.open_file, accelerator="Ctrl+O")
         self.file_menu.add_command(
-            label="Save", command=self.save_values, accelerator="Ctrl+S")
+            label=self.language['menu_file_save'], command=self.save_values, accelerator="Ctrl+S")
         self.file_menu.add_command(
-            label="Save As", command=self.save_as, accelerator="Ctrl+Shift+S")
+            label=self.language['menu_file_save_as'], command=self.save_as, accelerator="Ctrl+Shift+S")
         self.file_menu.add_separator()
-        self.file_menu.add_command(label="Exit", command=self.master.quit)
-        self.menu.add_cascade(label="File", menu=self.file_menu)
+        self.file_menu.add_command(label=self.language['menu_file_exit'], command=self.master.quit)
+        self.menu.add_cascade(label=self.language['menu_file'], menu=self.file_menu)
 
         # view menu
         self.view_menu = Menu(self.menu, tearoff=0)
@@ -50,17 +50,17 @@ class RayConfigurator(tk.Frame):
             label="English", command=self.set_language_english, onvalue=1, offvalue=0, variable=self.english)
         self.language_menu.add_checkbutton(
             label="日本語", command=self.set_language_japanese, onvalue=1, offvalue=0, variable=self.japanese)
-        self.view_menu.add_cascade(label="Language", menu=self.language_menu)
-        self.menu.add_cascade(label="View", menu=self.view_menu)
+        self.view_menu.add_cascade(label=self.language['menu_view_language'], menu=self.language_menu)
+        self.menu.add_cascade(label=self.language['menu_view'], menu=self.view_menu)
 
         # help menu
         self.help_menu = Menu(self.menu, tearoff=0)
         self.help_menu.add_command(
-            label="ray-mmd Documentation", command=self.documentation)
+            label=self.language['menu_help_docs'], command=self.documentation)
         self.help_menu.add_separator()
         self.help_menu.add_command(
-            label="About", command=self.about, accelerator="F1")
-        self.menu.add_cascade(label="Help", menu=self.help_menu)
+            label=self.language['menu_help_about'], command=self.about, accelerator="F1")
+        self.menu.add_cascade(label=self.language['menu_help'], menu=self.help_menu)
 
         self.master.config(menu=self.menu)
 
@@ -93,7 +93,7 @@ class RayConfigurator(tk.Frame):
         self.preset_frame.pack(side="top", fill="x", padx=10, pady=5)
 
         self.preset_label = tk.Label(
-            self.preset_frame, text="Presets", width=max_label_width + 2, anchor="w")
+            self.preset_frame, text=self.language['presets'], width=max_label_width + 2, anchor="w")
         self.preset_label.pack(side="left")
 
         self.preset_dropdown = ttk.Combobox(
@@ -175,7 +175,7 @@ class RayConfigurator(tk.Frame):
     def open_file(self):
         if self.unsaved_changes:
             answer = messagebox.askyesnocancel(
-                "Unsaved changes", "You have unsaved changes. Do you want to save them?")
+                self.language['unsaved_title'], self.language['unsaved_message'])
             if answer == True:
                 self.save_values()
             elif answer == False:
@@ -313,7 +313,7 @@ class RayConfigurator(tk.Frame):
     def new_file(self):
         if self.unsaved_changes:
             answer = messagebox.askyesnocancel(
-                "Unsaved changes", "You have unsaved changes. Do you want to save them?")
+                self.language['unsaved_title'], self.language['unsaved_message'])
             if answer == True:
                 self.save_values()
             elif answer == False:
@@ -367,6 +367,7 @@ class RayConfigurator(tk.Frame):
         self.mappings.set_language("english")
         self.english.set(True)
         self.japanese.set(False)
+        self.language = importlib.import_module('languages.english')
         self.reset_tabs()
 
     # set language to japanese
@@ -374,6 +375,7 @@ class RayConfigurator(tk.Frame):
         self.mappings.set_language("japanese")
         self.english.set(False)
         self.japanese.set(True)
+        self.language = importlib.import_module('languages.japanese')
         self.reset_tabs()
 
     # about
@@ -387,7 +389,7 @@ class RayConfigurator(tk.Frame):
 
     def on_close(self):
         if self.unsaved_changes:
-            if messagebox.askyesno("Unsaved changes", "You have unsaved changes. Are you sure you want to exit?"):
+            if messagebox.askyesno(self.language['unsaved_title'], self.language['unsaved_exit']):
                 self.master.destroy()
             else:
                 return
