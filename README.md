@@ -3,7 +3,7 @@ GUI for configurating ray-mmd
 
 This configuration utility allows you to change settings of ray-mmd without needing to know how it works or what everything means. It has helpful tooltips and a lightweight GUI.
 
-Supports both ray-mmd-dev and ray-mmd 1.5.2. It may work with versions older or the master branch, but the code still needs optimising.
+Tested with ray-mmd 1.5.2 and dev, but compatibility is implemented for all versions.
 
 ## Screenshot
 ![image](image.png)

@@ -27,6 +27,10 @@ class RayConfigurator(tk.Frame):
         self.file_menu.add_command(
             label="New (ray-mmd 1.5.2)", command=self.new_file_stable, accelerator="Ctrl+Shift+N")
         self.file_menu.add_command(
+            label="New (ray-mmd 1.3.x)", command=self.new_file_legacy)
+        self.file_menu.add_command(
+            label="New (ray-mmd 1.2.x)", command=self.new_file_ancient)
+        self.file_menu.add_command(
             label="Open", command=self.open_file, accelerator="Ctrl+O")
         self.file_menu.add_command(
             label="Save", command=self.save_values, accelerator="Ctrl+S")
@@ -214,6 +218,13 @@ class RayConfigurator(tk.Frame):
             self.mappings = importlib.import_module("mappings.dev")
             self.reset_tabs()
             for line in lines:
+                if '#define MAIN_LIGHT_ENABLE' in line:
+                    self.mappings = importlib.import_module("mappings.legacy")
+                    self.reset_tabs()
+                if '#define IBL_QUALITY' in line:
+                    self.mappings = importlib.import_module("mappings.ancient")
+                    self.reset_tabs()
+                    break
                 if '#define BOKEH_QUALITY' in line:
                     self.mappings = importlib.import_module("mappings.stable")
                     self.reset_tabs()
@@ -277,6 +288,18 @@ class RayConfigurator(tk.Frame):
     # new file dev
     def new_file_dev(self):
         self.mappings = importlib.import_module("mappings.dev")
+        self.reset_tabs()
+        self.new_file()
+
+    # new file legacy
+    def new_file_legacy(self):
+        self.mappings = importlib.import_module("mappings.legacy")
+        self.reset_tabs()
+        self.new_file()
+
+    # new file ancient
+    def new_file_ancient(self):
+        self.mappings = importlib.import_module("mappings.ancient")
         self.reset_tabs()
         self.new_file()
 
