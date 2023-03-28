@@ -233,39 +233,20 @@ presets = {
     'Custom': defaults,
 }
 
-name = {
-    'MAIN_LIGHT_ENABLE': "Main light",
-    'SHADOW_QUALITY': "Shadow quality",
-    'IBL_QUALITY': "IBL quality",
-    'FOG_ENABLE': "Fog",
-    'SSDO_QUALITY': "SSDO quality",
-    'SSR_QUALITY': "SSR quality",
-    'HDR_ENABLE': "HDR",
-    'HDR_EYE_ADAPTATION': "HDR eye adaptation",
-    'HDR_BLOOM_MODE': "HDR bloom mode",
-    'HDR_FLARE_MODE': "HDR flare mode",
-    'HDR_STAR_MODE': "HDR star mode",
-    'HDR_TONEMAP_OPERATOR': "HDR tonemap operator",
-    'AA_QUALITY': "Anti-aliasing",
-    "AA_GBUFFER_FILTER_QUALITY": "GBuffer filter",
-    'POST_DISPERSION_MODE': "Post dispersion mode",
-}
 
-description = {
-    'MAIN_LIGHT_ENABLE': "Enable/disable the main light.",
-    'SHADOW_QUALITY': "Set the shadow quality.",
-    'IBL_QUALITY': "Set the IBL quality.",
-    'FOG_ENABLE': "Enable/disable fog.",
-    'SSDO_QUALITY': "Set the SSDO quality.",
-    'SSR_QUALITY': "Set the SSR quality.",
-    'SSSS_QUALITY': "Enable/disable SSSS.",
-    'HDR_ENABLE': "Enable/disable HDR.",
-    'HDR_EYE_ADAPTATION': "Set the HDR eye adaptation.",
-    'HDR_BLOOM_MODE': "Set the HDR bloom mode.",
-    'HDR_FLARE_MODE': "Set the HDR flare mode.",
-    'HDR_STAR_MODE': "Set the HDR star mode.",
-    'HDR_TONEMAP_OPERATOR': "Set the HDR tonemap operator.",
-    'AA_QUALITY': "Set the anti-aliasing quality.",
-    "AA_GBUFFER_FILTER_QUALITY": "Enable/disable the GBuffer filter.",
-    'POST_DISPERSION_MODE': "Set the post dispersion mode.",
-}
+# language
+
+import importlib
+
+language = importlib.import_module('mappings.languages.english')
+
+name = language.name_legacy
+description = language.description_legacy
+
+def set_language(lang):
+    global name
+    global description
+    language = importlib.import_module('mappings.languages.' + lang)
+    name = language.name_legacy
+    description = language.description_legacy
+    

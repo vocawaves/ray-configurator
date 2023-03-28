@@ -1,4 +1,4 @@
-name = {
+name_dev = {
     'SUN_LIGHT_ENABLE': 'Sun Light',
     'SUN_SHADOW_MAP_QUALITY': 'Cascade Shadow Map Quality',
     'SUN_SHADOW_SAMPLE_QUALITY': 'Cascade Shadow Sample Count',
@@ -26,7 +26,7 @@ name = {
     'POST_DISPERSION_MODE': 'Post Dispersion',
 }
 
-description = {
+description_dev = {
     'SUN_LIGHT_ENABLE': 'Enable the sun light, also known as the "main" light.',
     'SUN_SHADOW_MAP_QUALITY': 'Whether the light should cast shadows, and how large the shadow map should be.',
     'SUN_SHADOW_SAMPLE_QUALITY': 'Quality of the shadow samples.',
@@ -52,4 +52,121 @@ description = {
     'HDR_TONEMAP_OPERATOR': 'This maps the wide range of high dynamic range (HDR) colours into low dynamic range (LDR) that a display can output.',
     'AA_QUALITY': 'Quality of the anti-aliasing. FXAA is faster than SMAA, but SMAA is better.',
     'POST_DISPERSION_MODE': 'Controls which mode will be activated to make a dispersion.',
+}
+
+name_stable = {
+    'SUN_LIGHT_ENABLE': "Sun Light",
+    'SUN_SHADOW_QUALITY': "Shadow Quality",
+    'IBL_QUALITY': "IBL Quality",
+    'FOG_ENABLE': "Fog",
+    'MULTI_LIGHT_ENABLE': "Light Tab",
+    'OUTLINE_QUALITY': "Outline Tab",
+    'TOON_ENABLE': "Toon Material",
+    'SSDO_QUALITY': "SSDO",
+    'SSR_QUALITY': "SSR",
+    'SSSS_QUALITY': "SSSS",
+    'BOKEH_QUALITY': "Bokeh",
+    'HDR_EYE_ADAPTATION': "Eye Adaptation",
+    'HDR_BLOOM_MODE': "Bloom",
+    'HDR_FLARE_MODE': "Flare",
+    'HDR_STAR_MODE': "Star",
+    'HDR_TONEMAP_OPERATOR': "Tonemap",
+    'AA_QUALITY': "Anti-Aliasing",
+    'POST_DISPERSION_MODE': "Dispersion",
+}
+
+description_stable = {
+    'SUN_LIGHT_ENABLE': "Enable the sun light.",
+    'SUN_SHADOW_QUALITY': "Set the shadow quality of the sun light.",
+    'IBL_QUALITY': "Set the quality of the IBL.",
+    'FOG_ENABLE': "Enable fog.",
+    'MULTI_LIGHT_ENABLE': "Enable the light tab.",
+    'OUTLINE_QUALITY': "Set the outline quality.",
+    'TOON_ENABLE': "Enable toon material.",
+    'SSDO_QUALITY': "Set the quality of the SSDO.",
+    'SSR_QUALITY': "Set the quality of the SSR.",
+    'SSSS_QUALITY': "Enable SSSS.",
+    'BOKEH_QUALITY': "Enable bokeh.",
+    'HDR_EYE_ADAPTATION': "Set the eye adaptation of the HDR.",
+    'HDR_BLOOM_MODE': "Set the bloom mode of the HDR.",
+    'HDR_FLARE_MODE': "Set the flare mode of the HDR.",
+    'HDR_STAR_MODE': "Set the star mode of the HDR.",
+    'HDR_TONEMAP_OPERATOR': "Set the tonemap operator of the HDR.",
+    'AA_QUALITY': "Set the anti-aliasing quality.",
+    'POST_DISPERSION_MODE': "Set the dispersion mode.",
+}
+
+name_legacy = {
+    'MAIN_LIGHT_ENABLE': "Main light",
+    'SHADOW_QUALITY': "Shadow quality",
+    'IBL_QUALITY': "IBL quality",
+    'FOG_ENABLE': "Fog",
+    'SSDO_QUALITY': "SSDO quality",
+    'SSR_QUALITY': "SSR quality",
+    'HDR_ENABLE': "HDR",
+    'HDR_EYE_ADAPTATION': "HDR eye adaptation",
+    'HDR_BLOOM_MODE': "HDR bloom mode",
+    'HDR_FLARE_MODE': "HDR flare mode",
+    'HDR_STAR_MODE': "HDR star mode",
+    'HDR_TONEMAP_OPERATOR': "HDR tonemap operator",
+    'AA_QUALITY': "Anti-aliasing",
+    "AA_GBUFFER_FILTER_QUALITY": "GBuffer filter",
+    'POST_DISPERSION_MODE': "Post dispersion mode",
+}
+
+description_legacy = {
+    'MAIN_LIGHT_ENABLE': "Enable/disable the main light.",
+    'SHADOW_QUALITY': "Set the shadow quality.",
+    'IBL_QUALITY': "Set the IBL quality.",
+    'FOG_ENABLE': "Enable/disable fog.",
+    'SSDO_QUALITY': "Set the SSDO quality.",
+    'SSR_QUALITY': "Set the SSR quality.",
+    'SSSS_QUALITY': "Enable/disable SSSS.",
+    'HDR_ENABLE': "Enable/disable HDR.",
+    'HDR_EYE_ADAPTATION': "Set the HDR eye adaptation.",
+    'HDR_BLOOM_MODE': "Set the HDR bloom mode.",
+    'HDR_FLARE_MODE': "Set the HDR flare mode.",
+    'HDR_STAR_MODE': "Set the HDR star mode.",
+    'HDR_TONEMAP_OPERATOR': "Set the HDR tonemap operator.",
+    'AA_QUALITY': "Set the anti-aliasing quality.",
+    "AA_GBUFFER_FILTER_QUALITY": "Enable/disable the GBuffer filter.",
+    'POST_DISPERSION_MODE': "Set the post dispersion mode.",
+}
+
+name_ancient = {
+    'MAIN_LIGHT_ENABLE': 'Main Light',
+    'SHADOW_QUALITY': 'Shadow Quality',
+    'IBL_QUALITY': 'IBL Quality',
+    'IBL_SKIN_COLOR_BALANCE': 'Skin Balance',
+    'FOG_ENABLE': 'Fog',
+    'SSAO_QUALITY': 'SSAO Quality',
+    'SSR_QUALITY': 'SSR Quality',
+    'SSSS_QUALITY': 'SSSS Quality',
+    'HDR_ENABLE': 'HDR',
+    'HDR_BLOOM_MODE': 'HDR Bloom Mode',
+    'HDR_FLARE_MODE': 'HDR Flare Mode',
+    'HDR_STAR_MODE': 'HDR Star Mode',
+    'HDR_TONEMAP_OPERATOR': 'HDR Tonemap Operator',
+    'AA_QUALITY': 'Anti-Aliasing',
+    'AA_GBUFFER_FILTER_QUALITY': 'GBuffer Filter',
+    'LIGHTMODEL_BRDF': 'Lightmodel BRDF',
+}
+
+description_ancient = {
+    'MAIN_LIGHT_ENABLE': 'Enable main light',
+    'SHADOW_QUALITY': 'Shadow quality',
+    'IBL_QUALITY': 'IBL quality',
+    'IBL_SKIN_COLOR_BALANCE': 'Skin color balance',
+    'FOG_ENABLE': 'Enable fog',
+    'SSAO_QUALITY': 'SSAO quality',
+    'SSR_QUALITY': 'SSR quality',
+    'SSSS_QUALITY': 'SSSS quality',
+    'HDR_ENABLE': 'Enable HDR',
+    'HDR_BLOOM_MODE': 'HDR bloom mode',
+    'HDR_FLARE_MODE': 'HDR flare mode',
+    'HDR_STAR_MODE': 'HDR star mode',
+    'HDR_TONEMAP_OPERATOR': 'HDR tonemap operator',
+    'AA_QUALITY': 'Anti-aliasing quality',
+    'AA_GBUFFER_FILTER_QUALITY': 'GBuffer filter',
+    'LIGHTMODEL_BRDF': 'Lightmodel BRDF',
 }

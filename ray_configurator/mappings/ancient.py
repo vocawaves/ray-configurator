@@ -234,40 +234,18 @@ presets = {
     'Custom': defaults,
 }
 
-name = {
-    'MAIN_LIGHT_ENABLE': 'Main Light',
-    'SHADOW_QUALITY': 'Shadow Quality',
-    'IBL_QUALITY': 'IBL Quality',
-    'IBL_SKIN_COLOR_BALANCE': 'Skin Balance',
-    'FOG_ENABLE': 'Fog',
-    'SSAO_QUALITY': 'SSAO Quality',
-    'SSR_QUALITY': 'SSR Quality',
-    'SSSS_QUALITY': 'SSSS Quality',
-    'HDR_ENABLE': 'HDR',
-    'HDR_BLOOM_MODE': 'HDR Bloom Mode',
-    'HDR_FLARE_MODE': 'HDR Flare Mode',
-    'HDR_STAR_MODE': 'HDR Star Mode',
-    'HDR_TONEMAP_OPERATOR': 'HDR Tonemap Operator',
-    'AA_QUALITY': 'Anti-Aliasing',
-    'AA_GBUFFER_FILTER_QUALITY': 'GBuffer Filter',
-    'LIGHTMODEL_BRDF': 'Lightmodel BRDF',
-}
+# language
 
-description = {
-    'MAIN_LIGHT_ENABLE': 'Enable main light',
-    'SHADOW_QUALITY': 'Shadow quality',
-    'IBL_QUALITY': 'IBL quality',
-    'IBL_SKIN_COLOR_BALANCE': 'Skin color balance',
-    'FOG_ENABLE': 'Enable fog',
-    'SSAO_QUALITY': 'SSAO quality',
-    'SSR_QUALITY': 'SSR quality',
-    'SSSS_QUALITY': 'SSSS quality',
-    'HDR_ENABLE': 'Enable HDR',
-    'HDR_BLOOM_MODE': 'HDR bloom mode',
-    'HDR_FLARE_MODE': 'HDR flare mode',
-    'HDR_STAR_MODE': 'HDR star mode',
-    'HDR_TONEMAP_OPERATOR': 'HDR tonemap operator',
-    'AA_QUALITY': 'Anti-aliasing quality',
-    'AA_GBUFFER_FILTER_QUALITY': 'GBuffer filter',
-    'LIGHTMODEL_BRDF': 'Lightmodel BRDF',
-}
+import importlib
+
+language = importlib.import_module('mappings.languages.english')
+
+name = language.name_ancient
+description = language.description_ancient
+
+def set_language(lang):
+    global name
+    global description
+    language = importlib.import_module('mappings.languages.' + lang)
+    name = language.name_ancient
+    description = language.description_ancient

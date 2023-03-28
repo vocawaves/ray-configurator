@@ -361,12 +361,12 @@ import importlib
 
 language = importlib.import_module('mappings.languages.english')
 
-name = language.name
-description = language.description
+name = language.name_dev
+description = language.description_dev
 
 def set_language(lang):
     global name
     global description
     language = importlib.import_module('mappings.languages.' + lang)
-    name = language.name
-    description = language.description
+    name = language.name_dev
+    description = language.description_dev

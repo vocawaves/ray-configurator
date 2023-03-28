@@ -107,27 +107,6 @@ setting = {
     }
 }
 
-name = {
-    'SUN_LIGHT_ENABLE': "Sun Light",
-    'SUN_SHADOW_QUALITY': "Shadow Quality",
-    'IBL_QUALITY': "IBL Quality",
-    'FOG_ENABLE': "Fog",
-    'MULTI_LIGHT_ENABLE': "Light Tab",
-    'OUTLINE_QUALITY': "Outline Tab",
-    'TOON_ENABLE': "Toon Material",
-    'SSDO_QUALITY': "SSDO",
-    'SSR_QUALITY': "SSR",
-    'SSSS_QUALITY': "SSSS",
-    'BOKEH_QUALITY': "Bokeh",
-    'HDR_EYE_ADAPTATION': "Eye Adaptation",
-    'HDR_BLOOM_MODE': "Bloom",
-    'HDR_FLARE_MODE': "Flare",
-    'HDR_STAR_MODE': "Star",
-    'HDR_TONEMAP_OPERATOR': "Tonemap",
-    'AA_QUALITY': "Anti-Aliasing",
-    'POST_DISPERSION_MODE': "Dispersion",
-}
-
 category = {
     'Lighting': ['SUN_LIGHT_ENABLE', 'SUN_SHADOW_QUALITY', 'IBL_QUALITY', 'FOG_ENABLE', 'MULTI_LIGHT_ENABLE'],
     'Post Processing': ['OUTLINE_QUALITY', 'TOON_ENABLE', 'SSDO_QUALITY', 'SSR_QUALITY', 'SSSS_QUALITY', 'BOKEH_QUALITY', 'HDR_EYE_ADAPTATION', 'HDR_BLOOM_MODE', 'HDR_FLARE_MODE', 'HDR_STAR_MODE', 'HDR_TONEMAP_OPERATOR', 'AA_QUALITY', 'POST_DISPERSION_MODE'],
@@ -173,27 +152,6 @@ defaults = {
     'HDR_TONEMAP_OPERATOR': 4,
     'AA_QUALITY': 1,
     'POST_DISPERSION_MODE': 1,
-}
-
-description = {
-    'SUN_LIGHT_ENABLE': "Enable the sun light.",
-    'SUN_SHADOW_QUALITY': "Set the shadow quality of the sun light.",
-    'IBL_QUALITY': "Set the quality of the IBL.",
-    'FOG_ENABLE': "Enable fog.",
-    'MULTI_LIGHT_ENABLE': "Enable the light tab.",
-    'OUTLINE_QUALITY': "Set the outline quality.",
-    'TOON_ENABLE': "Enable toon material.",
-    'SSDO_QUALITY': "Set the quality of the SSDO.",
-    'SSR_QUALITY': "Set the quality of the SSR.",
-    'SSSS_QUALITY': "Enable SSSS.",
-    'BOKEH_QUALITY': "Enable bokeh.",
-    'HDR_EYE_ADAPTATION': "Set the eye adaptation of the HDR.",
-    'HDR_BLOOM_MODE': "Set the bloom mode of the HDR.",
-    'HDR_FLARE_MODE': "Set the flare mode of the HDR.",
-    'HDR_STAR_MODE': "Set the star mode of the HDR.",
-    'HDR_TONEMAP_OPERATOR': "Set the tonemap operator of the HDR.",
-    'AA_QUALITY': "Set the anti-aliasing quality.",
-    'POST_DISPERSION_MODE': "Set the dispersion mode.",
 }
 
 presets = {
@@ -300,3 +258,19 @@ presets = {
     },
     'Custom': defaults
 }
+
+# language
+
+import importlib
+
+language = importlib.import_module('mappings.languages.english')
+
+name = language.name_stable
+description = language.description_stable
+
+def set_language(lang):
+    global name
+    global description
+    language = importlib.import_module('mappings.languages.' + lang)
+    name = language.name_stable
+    description = language.description_stable
