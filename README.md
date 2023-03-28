@@ -11,7 +11,7 @@ Tested with ray-mmd 1.5.2 and dev, but compatibility is implemented for all vers
 
 ## Things to add
 * Code cleanup
-* Translations
+* Full translations
 * Support ray_advanced.conf
 
 ## License

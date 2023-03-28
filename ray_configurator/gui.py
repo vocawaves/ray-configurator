@@ -39,6 +39,20 @@ class RayConfigurator(tk.Frame):
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit", command=self.master.quit)
         self.menu.add_cascade(label="File", menu=self.file_menu)
+
+        # view menu
+        self.view_menu = Menu(self.menu, tearoff=0)
+        self.language_menu = Menu(self.view_menu, tearoff=0)
+        self.english = tk.BooleanVar()
+        self.english.set(True)
+        self.japanese = tk.BooleanVar()
+        self.language_menu.add_checkbutton(
+            label="English", command=self.set_language_english, onvalue=1, offvalue=0, variable=self.english)
+        self.language_menu.add_checkbutton(
+            label="日本語", command=self.set_language_japanese, onvalue=1, offvalue=0, variable=self.japanese)
+        self.view_menu.add_cascade(label="Language", menu=self.language_menu)
+        self.menu.add_cascade(label="View", menu=self.view_menu)
+
         # help menu
         self.help_menu = Menu(self.menu, tearoff=0)
         self.help_menu.add_command(
@@ -122,6 +136,7 @@ class RayConfigurator(tk.Frame):
                     self.checkbox_vals[key] = checkbox_var
 
     # on value change
+
     def on_value_change(self):
         if self.current_file:
             self.master.title(f"ray-configurator - {self.current_file} *")
@@ -132,6 +147,7 @@ class RayConfigurator(tk.Frame):
         self.unsaved_changes = True
 
     # annoying checkbox fix
+
     def on_checkbox_changed(self, key, var):
         if var.get():
             self.inputs[key] = "Enabled"
@@ -140,6 +156,7 @@ class RayConfigurator(tk.Frame):
         self.on_value_change()
 
     # on preset change
+
     def on_preset_change(self):
         self.current_values = self.mappings.presets[self.preset_dropdown.get()]
         for key in self.mappings.name.keys():
@@ -154,6 +171,7 @@ class RayConfigurator(tk.Frame):
                     variable=checkbox_var)
 
     # open file
+
     def open_file(self):
         if self.unsaved_changes:
             answer = messagebox.askyesnocancel(
@@ -172,11 +190,13 @@ class RayConfigurator(tk.Frame):
             self.load_values()
 
     # save as file
+
     def save_as(self):
         self.current_file = None
         self.save_values()
 
     # save to file
+
     def save_values(self):
         if self.current_file:
             with open(self.current_file, "r") as f:
@@ -283,6 +303,7 @@ class RayConfigurator(tk.Frame):
             print("Values loaded successfully.")
             self.unsaved_changes = False
 
+    # MENU CONTROLS
     # new file
     def new_file(self):
         if self.unsaved_changes:
@@ -311,7 +332,7 @@ class RayConfigurator(tk.Frame):
 
         self.master.title("ray-configurator - unsaved")
         self.unsaved_changes = False
-    
+
     # new file stable
     def new_file_stable(self):
         self.mappings = importlib.import_module("mappings.stable")
@@ -335,6 +356,20 @@ class RayConfigurator(tk.Frame):
         self.mappings = importlib.import_module("mappings.ancient")
         self.reset_tabs()
         self.new_file()
+
+    # set language to english
+    def set_language_english(self):
+        self.mappings.set_language("english")
+        self.english.set(True)
+        self.japanese.set(False)
+        self.reset_tabs()
+
+    # set language to japanese
+    def set_language_japanese(self):
+        self.mappings.set_language("japanese")
+        self.english.set(False)
+        self.japanese.set(True)
+        self.reset_tabs()
 
     # about
     def about(self):
