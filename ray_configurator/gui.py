@@ -340,7 +340,7 @@ class RayConfigurator(tk.Frame):
     # set language to english
     def set_language(self, language):
         self.mappings.set_language(language)
-        self.language = importlib.import_module('languages.' + language)
+        self.language = importlib.import_module('languages.' + language).strings
         self.reset_tabs()
         if language == "english":
             self.english.set(True)
