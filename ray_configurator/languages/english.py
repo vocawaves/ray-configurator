@@ -14,7 +14,7 @@ strings = {
     'menu_view': 'View',
     'menu_view_language': 'Language',
     'menu_view_recent': 'Clear recent files',
-    'menu_help': 'About',
+    'menu_help': 'Help',
     'menu_help_docs': 'ray-mmd Documentation',
     'menu_help_about': 'About',
     # modals

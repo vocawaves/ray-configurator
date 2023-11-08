@@ -19,6 +19,28 @@ class RayConfigurator(tk.Frame):
         self.master.protocol("WM_DELETE_WINDOW", self.on_close)
         self.recent_files = []
 
+        # KEYBINDS
+        self.master.bind("<Control-n>", lambda event: self.new_file())
+        self.master.bind("<Control-s>", lambda event: self.save_values())
+        self.master.bind("<Control-o>", lambda event: self.open_file())
+        self.master.bind("<Control-Shift-s>", lambda event: self.save_as())
+        self.master.bind("<F1>", lambda event: self.about())
+
+        # INIT
+        self.current_values = self.mappings.defaults
+        self.notebook = ttk.Notebook(self.master)
+        self.notebook.pack(fill="both", expand=True)
+
+        self.tabs = {}
+        self.inputs = {}
+        self.labels = {}
+        self.checkbox_objects = {}
+        self.checkbox_vals = {}
+
+        self.init_menu()
+        self.init_ui()
+
+    def init_menu(self):
         # NAVIGATION MENU
         self.menu = Menu(self.master)
         # file menu
@@ -73,25 +95,6 @@ class RayConfigurator(tk.Frame):
 
         self.master.config(menu=self.menu)
 
-        # KEYBINDS
-        self.master.bind("<Control-n>", lambda event: self.new_file())
-        self.master.bind("<Control-s>", lambda event: self.save_values())
-        self.master.bind("<Control-o>", lambda event: self.open_file())
-        self.master.bind("<Control-Shift-s>", lambda event: self.save_as())
-        self.master.bind("<F1>", lambda event: self.about())
-
-        # INIT
-        self.current_values = self.mappings.defaults
-        self.notebook = ttk.Notebook(self.master)
-        self.notebook.pack(fill="both", expand=True)
-
-        self.tabs = {}
-        self.inputs = {}
-        self.labels = {}
-        self.checkbox_objects = {}
-        self.checkbox_vals = {}
-
-        self.init_ui()
 
     def init_ui(self):
         max_label_width = max(
@@ -283,8 +286,11 @@ class RayConfigurator(tk.Frame):
         for i in self.notebook.tabs():
             self.notebook.forget(i)
         self.preset_frame.destroy()
-
+        
         self.init_ui()
+        
+        self.menu.delete(0, "end")
+        self.init_menu()
 
     # load from file
     def load_values(self):
@@ -363,7 +369,7 @@ class RayConfigurator(tk.Frame):
         self.master.title("ray-configurator - unsaved")
         self.unsaved_changes = False
 
-    # set language to english
+    # set language (english/japanese)
     def set_language(self, language):
         self.mappings.set_language(language)
         self.language = importlib.import_module('languages.' + language).strings
