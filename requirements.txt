@@ -1,3 +1,2 @@
 pyinstaller==5.9.0
-pyinstaller-versionfile==2.1.1
 

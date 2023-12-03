@@ -40,5 +40,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    version='rayversion.txt',
+    version='ray-version.txt',
 )
