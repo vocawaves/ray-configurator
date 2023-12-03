@@ -1,3 +1,4 @@
+# DEV
 name_dev = {
     'SUN_LIGHT_ENABLE': '太陽の光',
     'SUN_SHADOW_MAP_QUALITY': 'Cascade Shadow Map Quality',
@@ -54,6 +55,8 @@ description_dev = {
     'POST_DISPERSION_MODE': 'Controls which mode will be activated to make a dispersion.',
 }
 
+
+# STABLE
 name_stable = {
     'SUN_LIGHT_ENABLE': "Sun Light",
     'SUN_SHADOW_QUALITY': "Shadow Quality",
@@ -96,6 +99,8 @@ description_stable = {
     'POST_DISPERSION_MODE': "Set the dispersion mode.",
 }
 
+
+# LEGACY
 name_legacy = {
     'MAIN_LIGHT_ENABLE': "Main light",
     'SHADOW_QUALITY': "Shadow quality",
@@ -133,6 +138,8 @@ description_legacy = {
     'POST_DISPERSION_MODE': "Set the post dispersion mode.",
 }
 
+
+# ANCIENT
 name_ancient = {
     'MAIN_LIGHT_ENABLE': 'Main Light',
     'SHADOW_QUALITY': 'Shadow Quality',

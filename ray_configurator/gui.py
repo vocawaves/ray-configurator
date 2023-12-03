@@ -147,8 +147,8 @@ class RayConfigurator(tk.Frame):
                     self.checkbox_objects[key] = checkbox
                     self.checkbox_vals[key] = checkbox_var
 
-    # on value change
 
+    # on value change
     def on_value_change(self):
         if self.current_file:
             self.master.title(f"ray-configurator - {self.current_file} *")
@@ -158,14 +158,14 @@ class RayConfigurator(tk.Frame):
         self.preset_dropdown.set("Custom")
         self.unsaved_changes = True
 
-    # annoying checkbox fix
 
+    # annoying checkbox fix
     def on_checkbox_changed(self, key, var):
         self.inputs[key] = "Enabled" if var.get() else "Disabled"
         self.on_value_change()
 
-    # on preset change
 
+    # on preset change
     def on_preset_change(self):
         self.current_values = self.mappings.presets[self.preset_dropdown.get()]
         for key in self.mappings.name.keys():
@@ -180,7 +180,6 @@ class RayConfigurator(tk.Frame):
                     variable=checkbox_var)
 
     # open file
-
     def open_file(self):
         if self.unsaved_changes:
             answer = messagebox.askyesnocancel(
@@ -215,14 +214,14 @@ class RayConfigurator(tk.Frame):
         self.recent_menu.add_command(
             label=self.language['no_recent'], command=self.clear_recent)
 
-    # save as file
 
+    # save as file
     def save_as(self):
         self.current_file = None
         self.save_values()
 
-    # save to file
 
+    # save to file
     def save_values(self):
         if self.current_file:
             with open(self.current_file, "r") as f:
@@ -292,6 +291,7 @@ class RayConfigurator(tk.Frame):
         self.menu.delete(0, "end")
         self.init_menu()
 
+
     # load from file
     def load_values(self):
         with open(self.current_file, "r") as f:
@@ -302,12 +302,13 @@ class RayConfigurator(tk.Frame):
                     self.mappings = importlib.import_module("mappings.legacy")
                     self.reset_tabs()
                     not_dev = True
-                if '#define IBL_QUALITY' in line:
+                    break
+                elif '#define IBL_QUALITY' in line:
                     self.mappings = importlib.import_module("mappings.ancient")
                     self.reset_tabs()
                     not_dev = True
                     break
-                if '#define BOKEH_QUALITY' in line:
+                elif '#define BOKEH_QUALITY' in line:
                     self.mappings = importlib.import_module("mappings.stable")
                     self.reset_tabs()
                     not_dev = True
@@ -336,6 +337,7 @@ class RayConfigurator(tk.Frame):
 
             print("Values loaded successfully.")
             self.unsaved_changes = False
+
 
     # MENU CONTROLS
     # new file
@@ -369,6 +371,7 @@ class RayConfigurator(tk.Frame):
         self.master.title("ray-configurator - unsaved")
         self.unsaved_changes = False
 
+
     # set language (english/japanese)
     def set_language(self, language):
         self.mappings.set_language(language)
@@ -381,10 +384,12 @@ class RayConfigurator(tk.Frame):
             self.english.set(False)
             self.japanese.set(True)
 
+
     # about
     def about(self):
         messagebox.showinfo(
             "About", "ray-configurator v1.0.0\n\nDeveloped by @davidcralph")
+
 
     # docs
     def documentation(self):
