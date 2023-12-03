@@ -16,11 +16,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Package Application
-      uses: JackMcKew/pyinstaller-action-windows@main
+      uses: JackMcKew/pyinstaller-action-windows@python3-10-pyinstaller-5-3
       with:
         path: ray_configurator
 
     - uses: actions/upload-artifact@v2
       with:
         name: name-of-artifact
-        path: dist/
+        path: dist
