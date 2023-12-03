@@ -18,7 +18,7 @@ jobs:
     - name: Package Application
       uses: JackMcKew/pyinstaller-action-windows@python3-10-pyinstaller-5-3
       with:
-        path: ray_configurator
+        path: .
 
     - uses: actions/upload-artifact@v2
       with:
