@@ -6,7 +6,7 @@ block_cipher = None
 
 a = Analysis(
     ['ray_configurator\\gui.py'],
-    pathex=[],
+    pathex=['ray_configurator\\mappings', 'ray_configurator\\mappings\\languages', 'ray_configurator\\languages'],
     binaries=[],
     datas=[],
     hiddenimports=[],
@@ -16,7 +16,7 @@ a = Analysis(
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
     cipher=block_cipher,
-    noarchive=False,
+    noarchive=True,
 )
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 

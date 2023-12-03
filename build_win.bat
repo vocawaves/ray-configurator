@@ -1,3 +1,3 @@
-rmdir /s /q __pycache__ build dist rayversion.txt
+rmdir /s /q __pycache__ build dist
 python version.py
-pyinstaller --noconfirm --noconsole --onefile --clean --version-file="./rayversion.txt" --name "ray-configurator" "./ray_configurator/gui.py"
+pyinstaller "ray-configurator.spec"
