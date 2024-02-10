@@ -1,2 +1,2 @@
-pyinstaller==5.9.0
+pyinstaller==5.13.1
 
